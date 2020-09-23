@@ -20,15 +20,24 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 
+import org.aspectj.lang.annotation.Before;
+import org.springframework.boot.env.YamlPropertySourceLoader;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
 public class ServiceMonitor {
-
+	/*
 	@AfterReturning("execution(* sample..*Service.*(..))")
 	public void logServiceAccess(JoinPoint joinPoint) {
 		System.out.println("Completed: " + joinPoint);
 	}
+	*/
+	@Before("execution(public * sample..*.*(..))")
+	public void getTraceExecution(JoinPoint point){
+		System.out.println("greffon appelé avant exécution d'une méthode publique");
+		System.out.println("Nom de bean : " + point.getTarget().getClass().getSimpleName()
+				+ "\n Nom de la méthode : " + point.getSignature().getName());
 
+	}
 }
