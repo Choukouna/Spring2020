@@ -17,7 +17,9 @@
 package sample.aop.monitor;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
 import org.aspectj.lang.annotation.Before;
@@ -33,11 +35,35 @@ public class ServiceMonitor {
 		System.out.println("Completed: " + joinPoint);
 	}
 	*/
+
+	/*
+	* Aspect exécuté avant l'exécution de toute méthode publique de l'application
+	* */
 	@Before("execution(public * sample..*.*(..))")
 	public void getTraceExecution(JoinPoint point){
 		System.out.println("greffon appelé avant exécution d'une méthode publique");
 		System.out.println("Nom de bean : " + point.getTarget().getClass().getSimpleName()
-				+ "\n Nom de la méthode : " + point.getSignature().getName());
+				+ "\n Nom de la méthode : " + point.getSignature().getName() + "\n");
 
+	}
+
+	/*
+	* Aspect permettant de vérifier si le montant d'une transaction est > 0 avant de la faire
+	* */
+	@Around("execution(public void sample.aop.bank.IBank.transfer(..))")
+	public void checkAmount(ProceedingJoinPoint point) throws Throwable {
+		int mount =(int) point.getArgs()[2];
+		if(mount <= 0) {
+			System.err.println("Montant de la transaction < 0 ( " + mount + " passé), arrêt du système");
+			System.exit(1);
+		} else {
+			System.out.println("Montant du transfert > 0, le système continue");
+			try {
+				point.proceed();
+			} catch (Exception e){
+				System.err.println("Relancement de la méthode a échoué après le pointcut");
+				System.exit(1);
+			}
+		}
 	}
 }

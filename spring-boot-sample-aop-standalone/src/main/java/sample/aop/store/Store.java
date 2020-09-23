@@ -17,7 +17,7 @@ public class Store implements IFastLane, IJustHaveALook, ILane{
     @Override
     public void oneShotOrder(String prod, int qte) {
         provider.order(prod, qte);
-        bank.transfer("00004321", "2456", 100);
+        bank.transfer("00004321", "2456", 5);
         System.out.println("One shot order called\n produit acheté : " + prod + ", quantite : " + qte);
     }
 
