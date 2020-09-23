@@ -21,7 +21,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import sample.simple.client.Client;
+import sample.simple.client.IClient;
+import sample.simple.client.IRun;
 import sample.simple.service.HelloWorldService;
+
+import javax.imageio.event.IIOReadUpdateListener;
 
 @SpringBootApplication
 public class SampleSimpleApplication implements CommandLineRunner {
@@ -33,14 +38,16 @@ public class SampleSimpleApplication implements CommandLineRunner {
 	@Autowired
 	private HelloWorldService helloWorldService;
 
+	@Autowired
+	private IRun client;
+
 	public void run(String... args) {
-		System.out.println(this.helloWorldService.getHelloMessage());
+		//System.out.println(this.helloWorldService.getHelloMessage());
+
+		this.client.run();
 	}
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(SampleSimpleApplication.class, args);
 	}
-	
-	
-
 }
