@@ -3,7 +3,7 @@ package sample.data.jpa.service;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import sample.data.jpa.domain.User;
+import sample.data.jpa.model.User;
 
 // Imports ...
 
@@ -15,6 +15,6 @@ public interface UserDao extends JpaRepository<User, Long> {
    * Note that this method is not implemented and its working code will be
    * automagically generated from its signature by Spring Data JPA.
    */
-  public User findByEmail(String email);
+  public User findByPseudo(String pseudo);
 
 }
